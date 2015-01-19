@@ -9,11 +9,9 @@ testSomething:
     ; perform the test
     
     ; if passed:
-    kcall(pass)
+    kjp(pass)
     ; if failed:
-    kcall(fail)
-    
-    ret
+    kjp(fail)
 ````
 
 Then in the test table at the top of the file, insert the name of your test, and increment the number:

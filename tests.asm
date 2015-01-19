@@ -4,5 +4,4 @@ tests:
 
 ; basic test that always passes
 testTrivial:
-    kcall(pass)
-    ret
+    kjp(pass)
