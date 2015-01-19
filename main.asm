@@ -142,6 +142,12 @@ pass:
     kld((num_passed), a)
     ret
 
+fail:
+    kld(a, (num_failed))
+    inc a
+    kld((num_failed), a)
+    ret
+
 ; variables
 test_id:
     .db -1
