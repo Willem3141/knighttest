@@ -87,6 +87,7 @@ start:
     kld(hl, tests)
     inc hl
     kld(a, (test_id))
+    add a, a
     ld e, a
     ld d, 0
     add hl, de
