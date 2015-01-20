@@ -148,6 +148,15 @@ fail:
     kld((num_failed), a)
     ret
 
+popOnceAndFail:
+    pop hl
+    jr fail
+
+popTwiceAndFail:
+    pop hl
+    pop hl
+    jr fail
+
 ; variables
 test_id:
     .db -1
@@ -174,4 +183,5 @@ press_enter_str:
 done_str:
     .db "Done!", 0
 
+#include "macros.inc"
 #include "tests.asm"
