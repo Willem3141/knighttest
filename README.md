@@ -24,3 +24,20 @@ tests:
 ````
 
 Now recompile the test runner and run it.
+
+## Macros
+The test runner provides several macros that can be used to write tests more easily.
+
+| Macro                       | Description                                     |
+| --------------------------- | ----------------------------------------------- |
+| `assertAEqualTo(expected)`  | Fails if `a` doesn't match the expected value.  |
+| `assertBEqualTo(expected)`  | Fails if `b` doesn't match the expected value.  |
+| `assertCEqualTo(expected)`  | Fails if `c` doesn't match the expected value.  |
+| `assertDEqualTo(expected)`  | Fails if `d` doesn't match the expected value.  |
+| `assertEEqualTo(expected)`  | Fails if `e` doesn't match the expected value.  |
+| `assertHEqualTo(expected)`  | Fails if `h` doesn't match the expected value.  |
+| `assertLEqualTo(expected)`  | Fails if `l` doesn't match the expected value.  |
+| `assertBCEqualTo(expected)` | Fails if `bc` doesn't match the expected value. |
+| `assertDEEqualTo(expected)` | Fails if `de` doesn't match the expected value. |
+| `assertHLEqualTo(expected)` | Fails if `hl` doesn't match the expected value. |
+| `assertIXEqualTo(expected)` | Fails if `ix` doesn't match the expected value. |
