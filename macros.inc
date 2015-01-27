@@ -54,10 +54,10 @@
 .macro assertBCEqualTo(expected)
     push af
         ld a, b
-        cp expected >> 8
+        cp (expected) >> 8
         kjp(nz, popOnceAndFail)
         ld a, c
-        cp expected & 0x00ff
+        cp (expected) & 0x00ff
         kjp(nz, popOnceAndFail)
     pop af
 .endmacro
@@ -65,10 +65,10 @@
 .macro assertDEEqualTo(expected)
     push af
         ld a, d
-        cp expected >> 8
+        cp (expected) >> 8
         kjp(nz, popOnceAndFail)
         ld a, e
-        cp expected & 0x00ff
+        cp (expected) & 0x00ff
         kjp(nz, popOnceAndFail)
     pop af
 .endmacro
@@ -76,10 +76,10 @@
 .macro assertHLEqualTo(expected)
     push af
         ld a, h
-        cp expected >> 8
+        cp (expected) >> 8
         kjp(nz, popOnceAndFail)
         ld a, l
-        cp expected & 0x00ff
+        cp (expected) & 0x00ff
         kjp(nz, popOnceAndFail)
     pop af
 .endmacro
@@ -88,10 +88,10 @@
     push af \ push de
         push ix \ pop de
         ld a, d
-        cp expected >> 8
+        cp (expected) >> 8
         kjp(nz, popTwiceAndFail)
         ld a, e
-        cp expected & 0x00ff
+        cp (expected) & 0x00ff
         kjp(nz, popTwiceAndFail)
     pop de \ pop af
 .endmacro
