@@ -1,5 +1,5 @@
 tests:
-    .db 40 ; number of tests
+    .db 38 ; number of tests
     .dw testTrivial
 ;     .dw testConvertTimeFromTicks1
 ;     .dw testConvertTimeFromTicks2
@@ -7,8 +7,6 @@ tests:
 ;     .dw testConvertTimeFromTicks4
     .dw testIsLeapYear
     .dw testMonthLength
-    .dw testDaysBeforeMonth
-    .dw testLeapYearsSince1997
     .dw testConvertTimeToTicks1
     .dw testConvertTimeToTicks2
     .dw testConvertTimeToTicks3
@@ -181,63 +179,6 @@ testMonthLength:
     ld e, 1
     pcall(monthLength)
     assertAEqualTo(29)
-    
-    kjp(pass)
-
-; tests daysBeforeMonth
-testDaysBeforeMonth:
-    ld hl, 2015
-    ld e, 0
-    pcall(daysBeforeMonth)
-    assertBCEqualTo(0)
-    
-    ld hl, 2015
-    ld e, 1
-    pcall(daysBeforeMonth)
-    assertBCEqualTo(31)
-    
-    ld hl, 2015 ; non-leap year
-    ld e, 2
-    pcall(daysBeforeMonth)
-    assertBCEqualTo(31 + 28)
-    
-    ld hl, 2016 ; leap year
-    ld e, 2
-    pcall(daysBeforeMonth)
-    assertBCEqualTo(31 + 29)
-    
-    kjp(pass)
-
-; tests leapYearsSince1997
-testLeapYearsSince1997:
-    
-    ld hl, 1997
-    pcall(leapYearsSince1997)
-    assertAEqualTo(0)
-    
-    ld hl, 2000
-    pcall(leapYearsSince1997)
-    assertAEqualTo(0)
-    
-    ld hl, 2001
-    pcall(leapYearsSince1997)
-    assertAEqualTo(1)
-    
-    ld hl, 2004
-    pcall(leapYearsSince1997)
-    assertAEqualTo(1)
-    
-    ld hl, 2005
-    pcall(leapYearsSince1997)
-    assertAEqualTo(2)
-    
-    ld hl, 2100
-    pcall(leapYearsSince1997)
-    assertAEqualTo(25)
-    
-    ld hl, 2101
-    pcall(leapYearsSince1997)
-    assertAEqualTo(25)
     
     kjp(pass)
 
