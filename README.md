@@ -25,6 +25,15 @@ tests:
 
 Now recompile the test runner and run it.
 
+## Debugging
+knighttest supports a very rudimentary way of debugging. If a test fails, you can look what is going on by doing this:
+
+````
+    kjp(printDebugAndHalt)
+````
+
+Now, the values of the `d`, `e`, `h` and `l` registers will be printed to the screen and the execution will halt (`jr $`).
+
 ## Macros
 The test runner provides several macros that can be used to write tests more easily.
 

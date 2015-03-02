@@ -157,6 +157,30 @@ popTwiceAndFail:
     pop hl
     jr fail
 
+printDebugAndHalt:
+    push de
+        ld a, d
+        ld de, 0x1022
+        pcall(drawHexA)
+    pop de
+    push de
+    ld a, e
+    ld de, 0x2022
+    pcall(drawHexA)
+    ld a, h
+    pop de
+    push de
+    ld de, 0x3022
+    pcall(drawHexA)
+    ld a, l
+    pop de
+    push de
+    ld de, 0x4022
+    pcall(drawHexA)
+    pcall(fastCopy)
+    pop de
+    jr $
+
 ; variables
 test_id:
     .db -1

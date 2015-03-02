@@ -259,27 +259,3 @@ createConvertToTicksTest(testConvertTimeToTicks33, 2017, 07, 21, 03, 54, 14, 648
 ; minimum and maximum possible tick value
 createConvertToTicksTest(testConvertTimeToTicks34, 1997, 01, 01, 00, 00, 00, 0)
 createConvertToTicksTest(testConvertTimeToTicks35, 2133, 02, 07, 06, 28, 15, 4294967295)
-
-
-;         push de
-;             ld a, d
-;             ld de, 0x1022
-;             pcall(drawHexA)
-;         pop de
-;         push de
-;         ld a, e
-;         ld de, 0x2022
-;         pcall(drawHexA)
-;         ld a, h
-;         pop de
-;         push de
-;         ld de, 0x3022
-;         pcall(drawHexA)
-;         ld a, l
-;         pop de
-;         push de
-;         ld de, 0x4022
-;         pcall(drawHexA)
-;         pcall(fastCopy)
-;         pop de
-;         jr $
