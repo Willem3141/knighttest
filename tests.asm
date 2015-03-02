@@ -182,7 +182,7 @@ testMonthLength:
     
     kjp(pass)
 
-.macro createConvertToTicksTest(name, year, month, day, hour, minute, second, expected)
+.macro createConvertToTicksTest(name, year, month, day, hour, minute, second, ticks)
     name:
         ld ix, year
         ld l, (month) - 1
@@ -193,31 +193,22 @@ testMonthLength:
         ld d, second
         
         pcall(convertTimeToTicks)
-;         push de
-;             ld a, d
-;             ld de, 0x1022
-;             pcall(drawHexA)
-;         pop de
-;         push de
-;         ld a, e
-;         ld de, 0x2022
-;         pcall(drawHexA)
-;         ld a, h
-;         pop de
-;         push de
-;         ld de, 0x3022
-;         pcall(drawHexA)
-;         ld a, l
-;         pop de
-;         push de
-;         ld de, 0x4022
-;         pcall(drawHexA)
-;         pcall(fastCopy)
-;         pop de
-;         jr $
         
-        assertHLEqualTo((expected) & 0xffff)
-        assertDEEqualTo((expected) >> 16)
+        assertHLEqualTo((ticks) & 0xffff)
+        assertDEEqualTo((ticks) >> 16)
+        
+        ld hl, (ticks) & 0xffff
+        ld de, (ticks) >> 16
+        
+        pcall(convertTimeFromTicks)
+        
+        assertIXEqualTo(year)
+        ;assertLEqualTo((month) - 1)
+        ;assertHEqualTo((day) - 1)
+        
+        assertBEqualTo(hour)
+        assertCEqualTo(minute)
+        assertDEqualTo(second)
         
         kjp(pass)
 .endmacro
@@ -270,26 +261,25 @@ createConvertToTicksTest(testConvertTimeToTicks34, 1997, 01, 01, 00, 00, 00, 0)
 createConvertToTicksTest(testConvertTimeToTicks35, 2133, 02, 07, 06, 28, 15, 4294967295)
 
 
-
-;     push de
-;         ld a, d
-;         ld de, 0x1022
+;         push de
+;             ld a, d
+;             ld de, 0x1022
+;             pcall(drawHexA)
+;         pop de
+;         push de
+;         ld a, e
+;         ld de, 0x2022
 ;         pcall(drawHexA)
-;     pop de
-;     push de
-;     ld a, e
-;     ld de, 0x2022
-;     pcall(drawHexA)
-;     ld a, h
-;     pop de
-;     push de
-;     ld de, 0x3022
-;     pcall(drawHexA)
-;     ld a, l
-;     pop de
-;     push de
-;     ld de, 0x4022
-;     pcall(drawHexA)
-;     pcall(fastCopy)
-;     pop de
-;     jr $
+;         ld a, h
+;         pop de
+;         push de
+;         ld de, 0x3022
+;         pcall(drawHexA)
+;         ld a, l
+;         pop de
+;         push de
+;         ld de, 0x4022
+;         pcall(drawHexA)
+;         pcall(fastCopy)
+;         pop de
+;         jr $
