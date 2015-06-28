@@ -164,21 +164,32 @@ printDebugAndHalt:
         pcall(drawHexA)
     pop de
     push de
-    ld a, e
-    ld de, 0x2022
-    pcall(drawHexA)
-    ld a, h
+        ld a, e
+        ld de, 0x2022
+        pcall(drawHexA)
     pop de
     push de
-    ld de, 0x3022
-    pcall(drawHexA)
-    ld a, l
+        ld a, h
+        ld de, 0x3022
+        pcall(drawHexA)
     pop de
     push de
-    ld de, 0x4022
-    pcall(drawHexA)
+        ld a, l
+        ld de, 0x4022
+        pcall(drawHexA)
+    pop de
+    push ix \ pop hl
+    push de
+        ld a, h
+        ld de, 0x3028
+        pcall(drawHexA)
+    pop de
+    push de
+        ld a, l
+        ld de, 0x4028
+        pcall(drawHexA)
+    pop de
     pcall(fastCopy)
-    pop de
     jr $
 
 ; variables
