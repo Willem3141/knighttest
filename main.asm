@@ -35,7 +35,7 @@ start:
     ld b, a
     kld(a, (test_id))
     cp b
-    jr z, .ready
+    kjp(z, .ready)
     
     ; draw the GUI
     pcall(clearBuffer)
@@ -67,40 +67,42 @@ start:
     pcall(drawStr)
     
     pcall(fastCopy)
-    
+
     ; put the address of the test in hl
     kld(a, (test_id))
     ld l, a
     ld h, 0
     add hl, hl
-    
+
     kld(de, tests)
     add hl, de
-    
+
     inc hl
-    
+
     ; put return address on the stack
     kld(hl, .testLoop)
     push hl
-    
-    ; call the test
-    kld(hl, tests)
-    inc hl
-    kld(a, (test_id))
-    add a, a
-    ld e, a
-    ld d, 0
-    add hl, de
-    
-    ld a, (hl)
-    ld e, a
-    inc hl
-    ld a, (hl)
-    ld d, a
-    pcall(getCurrentThreadID)
-    pcall(getEntryPoint)
-    add hl, de
-    jp (hl)
+        ; preserve iy, so that even if the test destroys it, we
+        ; don't lose our screen buffer
+        push iy
+              ; call the test
+              kld(hl, tests)
+              inc hl
+              kld(a, (test_id))
+              add a, a
+              ld e, a
+              ld d, 0
+              add hl, de
+              
+              ld a, (hl)
+              ld e, a
+              inc hl
+              ld a, (hl)
+              ld d, a
+              pcall(getCurrentThreadID)
+              pcall(getEntryPoint)
+              add hl, de
+              jp (hl)
 
 .ready:
     ; draw the GUI
@@ -140,12 +142,14 @@ pass:
     kld(a, (num_passed))
     inc a
     kld((num_passed), a)
+    pop iy
     ret
 
 fail:
     kld(a, (num_failed))
     inc a
     kld((num_failed), a)
+    pop iy
     ret
 
 popOnceAndFail:
@@ -158,37 +162,70 @@ popTwiceAndFail:
     jr fail
 
 printDebugAndHalt:
+    ; restore pointer to display buffer
+    pop iy \ pop iy
+
+    ; values
+    ld a, b
+    ld de, 0x1822
+    pcall(drawHexA)
+    ld a, c
+    ld de, 0x2222
+    pcall(drawHexA)
+    ld a, d
     push de
-        ld a, d
-        ld de, 0x1022
+        ld de, 0x4822
         pcall(drawHexA)
     pop de
+    ld a, e
     push de
-        ld a, e
-        ld de, 0x2022
+        ld de, 0x5222
         pcall(drawHexA)
     pop de
-    push de
-        ld a, h
-        ld de, 0x3022
-        pcall(drawHexA)
-    pop de
-    push de
-        ld a, l
-        ld de, 0x4022
-        pcall(drawHexA)
-    pop de
+    ld a, h
+    ld de, 0x1828
+    pcall(drawHexA)
+    ld a, l
+    ld de, 0x2228
+    pcall(drawHexA)
     push ix \ pop hl
-    push de
-        ld a, h
-        ld de, 0x3028
-        pcall(drawHexA)
-    pop de
-    push de
-        ld a, l
-        ld de, 0x4028
-        pcall(drawHexA)
-    pop de
+    ld a, h
+    ld de, 0x4828
+    pcall(drawHexA)
+    ld a, l
+    ld de, 0x5228
+    pcall(drawHexA)
+
+    ; labels
+    ld de, 0x0a22
+    ld a, 'b'
+    pcall(drawChar)
+    ld a, 'c'
+    pcall(drawChar)
+    ld a, ':'
+    pcall(drawChar)
+    ld de, 0x3a22
+    ld a, 'd'
+    pcall(drawChar)
+    ld a, 'e'
+    pcall(drawChar)
+    ld a, ':'
+    pcall(drawChar)
+    ld de, 0x0a28
+    ld a, 'h'
+    pcall(drawChar)
+    ld a, 'l'
+    pcall(drawChar)
+    ld a, ':'
+    pcall(drawChar)
+    ld de, 0x3a28
+    ld a, 'i'
+    pcall(drawChar)
+    ld a, 'x'
+    pcall(drawChar)
+    ld a, ':'
+    pcall(drawChar)
+
     pcall(fastCopy)
     jr $
 
